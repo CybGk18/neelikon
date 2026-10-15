@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { ArrowRight, FlaskConical, MessageCircle, Settings2 } from "lucide-react";
+import { ArrowRight, FlaskConical, MessageCircle, Settings } from "lucide-react";
 import { Reveal } from "./Reveal";
 
 export function FinalCta() {
@@ -138,7 +138,7 @@ export function FinalCta() {
                 {/* Badge 3: Find the right colour solution */}
                 <div className="flex items-center gap-3">
                   <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-[#FBD6D3] bg-[#FDECEB] text-[#EA580C] shadow-xs">
-                    <Settings2 className="h-5 w-5" strokeWidth={2.2} />
+                    <Settings className="h-5 w-5" strokeWidth={2.2} />
                   </div>
                   <div className="text-xs sm:text-[13px] font-medium leading-tight text-[#334155]">
                     <div>Find the right</div>
@@ -149,16 +149,72 @@ export function FinalCta() {
             </Reveal>
           </div>
 
-          {/* Right Column: High-Purity Pigment Dishes & Planetary Orbital Arc */}
+          {/* Right Column: Precision Colour Chemistry & Laboratory Formulations */}
           <div className="lg:col-span-5 relative flex items-center justify-center lg:justify-end">
-            <Reveal delay={0.15} className="relative w-full max-w-[540px] xl:max-w-[580px]">
+            <Reveal delay={0.15} className="relative w-full max-w-[480px] xl:max-w-[520px]">
               <div className="relative">
-                <img
-                  src="/images/cta/cta-visual.png"
-                  alt="Neelikon colour pigment testing in laboratory Petri dishes with planetary orbital arc"
-                  className="w-full h-auto object-contain select-none pointer-events-none drop-shadow-sm transition-transform duration-700 hover:scale-[1.01]"
-                  loading="lazy"
-                />
+                {/* Decorative Planetary Orbital Arc */}
+                <svg
+                  className="absolute -top-10 -left-10 w-[120%] h-[120%] pointer-events-none z-10 hidden sm:block"
+                  viewBox="0 0 500 500"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  aria-hidden="true"
+                >
+                  {/* Soft Outer Halo Ring */}
+                  <circle
+                    cx="280"
+                    cy="260"
+                    r="210"
+                    stroke="#3B82F6"
+                    strokeWidth="1.2"
+                    strokeDasharray="4 6"
+                    strokeOpacity="0.3"
+                  />
+                  {/* Smooth Inner Planetary Orbit */}
+                  <circle
+                    cx="280"
+                    cy="260"
+                    r="190"
+                    stroke="#94A3B8"
+                    strokeWidth="1.5"
+                    strokeOpacity="0.35"
+                  />
+                  {/* Node 1: Deep Royal Blue Node at Top */}
+                  <circle cx="280" cy="70" r="7" fill="#1D4ED8" />
+                  <circle cx="280" cy="70" r="12" stroke="#3B82F6" strokeWidth="1.5" strokeOpacity="0.4" />
+
+                  {/* Node 2: Flame Orange Node on Upper-Left */}
+                  <circle cx="118" cy="160" r="6" fill="#EA580C" />
+                  <circle cx="118" cy="160" r="10" stroke="#F97316" strokeWidth="1.5" strokeOpacity="0.4" />
+
+                  {/* Node 3: Vibrant Pink Node on Mid-Left */}
+                  <circle cx="90" cy="260" r="6" fill="#DB2777" />
+                  <circle cx="90" cy="260" r="10" stroke="#EC4899" strokeWidth="1.5" strokeOpacity="0.4" />
+                </svg>
+
+                {/* Main Photographic Visual Container */}
+                <div className="relative overflow-hidden rounded-3xl border border-white/80 bg-white/40 shadow-xl shadow-slate-200/60 backdrop-blur-xs transition-transform duration-700 hover:scale-[1.01]">
+                  <img
+                    src="/images/cta/cta-solution-beaker.png"
+                    alt="Neelikon precision colour engineering — laboratory fluid dispersion and spectrophotometric testing"
+                    className="w-full h-auto object-cover select-none pointer-events-none"
+                    loading="lazy"
+                  />
+
+                  {/* Subtle Bottom Glow Overlay */}
+                  <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-white/60 to-transparent pointer-events-none" />
+                </div>
+
+                {/* Floating Science Badge: Purity & Precision Formulation */}
+                <div className="absolute -bottom-3 -left-3 sm:-bottom-4 sm:-left-4 z-20 flex items-center gap-2.5 rounded-full border border-white/90 bg-white/95 px-4 py-2 shadow-lg shadow-slate-900/5 backdrop-blur-md">
+                  <span className="flex h-6 w-6 items-center justify-center rounded-full bg-emerald-50 text-emerald-600">
+                    <FlaskConical className="h-3.5 w-3.5" />
+                  </span>
+                  <div className="text-[11px] sm:text-xs font-semibold text-[#0F172A]">
+                    Precision Colour Formulation
+                  </div>
+                </div>
               </div>
             </Reveal>
           </div>

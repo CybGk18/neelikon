@@ -90,7 +90,7 @@ const INDUSTRIES_DATA = [
 
 function Industries() {
   return (
-    <section id="industries" className="scroll-mt-20 bg-[#FAF7F2] section-y overflow-hidden">
+    <section id="industries" className="scroll-mt-20 bg-[#FAF7F2] pt-6 sm:pt-8 lg:pt-10 pb-8 sm:pb-10 lg:pb-12 overflow-hidden">
       <div className="container-x">
         <Reveal>
           <div className="flex items-center gap-3">
@@ -285,7 +285,7 @@ const SCIENCE_CAPS = [
 
 function Science() {
   return (
-    <section id="innovation" className="scroll-mt-20 bg-[#FAF7F2] py-20 sm:py-28 lg:py-32 overflow-hidden text-[#0F172A] relative">
+    <section id="innovation" className="scroll-mt-20 bg-[#FAF7F2] pt-6 sm:pt-8 lg:pt-10 pb-20 sm:pb-28 lg:py-32 overflow-hidden text-[#0F172A] relative">
       {/* Subtle concentric vector contour rings matching the mockup background */}
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 select-none overflow-hidden">
         <div className="absolute top-0 left-0 w-[550px] h-[550px] -translate-x-1/4 -translate-y-1/4 rounded-full border border-slate-300/35" />
@@ -798,16 +798,66 @@ function Testimonial() {
             </Reveal>
           </div>
 
-          {/* Right Column: Circular Photographic Visual & Silk Ribbons */}
+          {/* Right Column: Precision Food Science & Technical Formulation */}
           <div className="lg:col-span-5 relative flex items-center justify-center">
-            <Reveal delay={0.2} className="relative w-full">
-              <div className="relative overflow-hidden rounded-3xl">
-                <img
-                  src="/images/testimonial/testimonial-visual-art.png"
-                  alt="Neelikon Partner Testimonial — Pure colour pigments in laboratory Petri dishes with flowing ribbons"
-                  className="w-full h-auto object-contain select-none pointer-events-none drop-shadow-md transition-transform duration-700 hover:scale-[1.02]"
-                  loading="lazy"
-                />
+            <Reveal delay={0.2} className="relative w-full max-w-[480px]">
+              <div className="relative">
+                {/* Subtle Decorative Planetary Orbital Ring */}
+                <svg
+                  className="absolute -top-8 -left-8 w-[115%] h-[115%] pointer-events-none z-10 hidden sm:block"
+                  viewBox="0 0 500 500"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  aria-hidden="true"
+                >
+                  <circle
+                    cx="250"
+                    cy="250"
+                    r="230"
+                    stroke="#CBD5E1"
+                    strokeWidth="1.2"
+                    strokeDasharray="4 6"
+                    strokeOpacity="0.6"
+                  />
+                  <circle cx="250" cy="20" r="6" fill="#0284C7" />
+                  <circle cx="250" cy="20" r="10" stroke="#38BDF8" strokeWidth="1.5" strokeOpacity="0.4" />
+                  <circle cx="470" cy="300" r="5" fill="#EA580C" />
+                  <circle cx="470" cy="300" r="9" stroke="#F97316" strokeWidth="1.5" strokeOpacity="0.4" />
+                </svg>
+
+                {/* Main Image Container */}
+                <div className="relative overflow-hidden rounded-3xl border border-white/90 bg-white/60 p-2.5 shadow-2xl shadow-slate-200/60 backdrop-blur-xs transition-transform duration-700 hover:scale-[1.01]">
+                  <div className="overflow-hidden rounded-2xl relative">
+                    <img
+                      src="/images/testimonial/food-colour-lab.jpg"
+                      alt="Neelikon Food Grade Colour Quality Control & Technical Formulation Laboratory"
+                      className="w-full h-auto object-cover select-none pointer-events-none transition-transform duration-700 hover:scale-105"
+                      loading="lazy"
+                    />
+                    {/* Soft Ambient Overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-900/30 via-transparent to-transparent pointer-events-none" />
+                  </div>
+                </div>
+
+                {/* Floating Quality Assurance Pill Badge (Top Right) */}
+                <div className="absolute -top-3.5 -right-3.5 sm:-top-4 sm:-right-4 z-20 flex items-center gap-2 rounded-full border border-white/90 bg-white/95 px-3.5 py-1.5 shadow-md shadow-slate-900/5 backdrop-blur-md">
+                  <span className="flex h-5 w-5 items-center justify-center rounded-full bg-emerald-50 text-emerald-600">
+                    <ShieldCheck className="h-3 w-3" />
+                  </span>
+                  <span className="text-[11px] font-semibold text-slate-800">
+                    Food Grade Certified
+                  </span>
+                </div>
+
+                {/* Floating Technical Support Badge (Bottom Left) */}
+                <div className="absolute -bottom-3.5 -left-3.5 sm:-bottom-4 sm:-left-4 z-20 flex items-center gap-2 rounded-full border border-white/90 bg-white/95 px-3.5 py-1.5 shadow-md shadow-slate-900/5 backdrop-blur-md">
+                  <span className="flex h-5 w-5 items-center justify-center rounded-full bg-sky-50 text-sky-600">
+                    <FlaskConical className="h-3 w-3" />
+                  </span>
+                  <span className="text-[11px] font-semibold text-slate-800">
+                    Formulation & Technical Support
+                  </span>
+                </div>
               </div>
             </Reveal>
           </div>
@@ -821,20 +871,137 @@ function Testimonial() {
 
 function Contact() {
   return (
-    <section id="contact" className="navy-field scroll-mt-16 section-y text-paper">
-      <div className="container-x grid gap-16 lg:grid-cols-12">
-        <Reveal className="lg:col-span-5">
-          <p className="eyebrow text-flame">Enquiries</p>
-          <h2 className="display mt-4 fs-section">Let's create something <span className="serif-accent text-sky">exceptional.</span></h2>
-          <p className="mt-6 text-lg text-paper/75">Connect with our team to discuss your application, product requirements, and opportunities to work together.</p>
-          <ul className="mt-10 space-y-4 text-paper/85">
-            <li className="flex gap-3"><Mail className="h-5 w-5 shrink-0 text-flame" /><a href={`mailto:${CONTACT.email}`}>{CONTACT.email}</a></li>
-            <li className="flex gap-3"><Phone className="h-5 w-5 shrink-0 text-flame" /><a href={CONTACT.phoneHref}>{CONTACT.phone}</a></li>
-            <li className="flex gap-3"><MapPin className="h-5 w-5 shrink-0 text-flame" /><span>{CONTACT.address}</span></li>
-          </ul>
-          <a href="/products" className="mt-10 inline-flex rounded-full border border-paper/40 btn">Explore Our Products</a>
-        </Reveal>
-        <div className="lg:col-span-6 lg:col-start-7"><EnquiryForm /></div>
+    <section id="contact" className="relative overflow-hidden bg-[#FAF7F2] text-[#0F172A] py-16 sm:py-20 lg:py-28 scroll-mt-16">
+      {/* Desktop Cinematic Laboratory & Organic Wave Backdrop */}
+      <div
+        className="absolute inset-y-0 right-0 w-full lg:w-[68%] xl:w-[65%] h-full pointer-events-none select-none overflow-hidden hidden lg:block"
+        aria-hidden="true"
+      >
+        <img
+          src="/images/contact/contact-backdrop-clean.png"
+          alt=""
+          className="w-full h-full object-cover object-left"
+        />
+      </div>
+
+      {/* Golden Ambient Curve Lines on Left Canvas */}
+      <svg
+        className="absolute inset-0 w-full h-full pointer-events-none select-none z-0 hidden lg:block"
+        viewBox="0 0 1440 700"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        aria-hidden="true"
+      >
+        <path
+          d="M 540 0 C 530 80, 520 160, 560 210 C 600 260, 610 380, 540 460"
+          stroke="#FDBA74"
+          strokeWidth="1.2"
+          strokeOpacity="0.4"
+        />
+        <path
+          d="M 510 500 C 490 540, 510 610, 600 670 C 650 700, 700 720, 740 720"
+          stroke="#FDBA74"
+          strokeWidth="1.2"
+          strokeOpacity="0.4"
+        />
+      </svg>
+
+      <div className="container-x relative z-10">
+        <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-12 lg:gap-8">
+          {/* Left Column: Heading, Contact Channels, and Product Link */}
+          <div className="lg:col-span-5">
+            <Reveal>
+              {/* Eyebrow Header */}
+              <div className="flex items-center gap-2.5">
+                <span className="h-[2px] w-8 rounded-full bg-[#EA580C]" />
+                <span className="text-xs font-bold tracking-[0.2em] uppercase text-[#EA580C]">
+                  Enquiries
+                </span>
+              </div>
+
+              {/* Main Headline */}
+              <h2 className="mt-5 font-serif text-4xl sm:text-5xl lg:text-[50px] xl:text-[54px] font-normal tracking-tight text-[#0B1528] leading-[1.08]">
+                Let’s create <br />
+                something <br />
+                <span className="italic text-[#EA580C]">exceptional.</span>
+              </h2>
+
+              {/* Subtitle */}
+              <p className="mt-5 max-w-sm text-[15px] sm:text-base leading-relaxed text-[#475569]">
+                Connect with our team to discuss your application, product requirements, and
+                opportunities to work together.
+              </p>
+
+              {/* Contact Info Cards */}
+              <div className="mt-8 sm:mt-10 space-y-4 sm:space-y-5">
+                {/* Email */}
+                <div className="flex items-start gap-3.5">
+                  <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-[#FBE0D0] bg-[#FDF0E7] text-[#EA580C] shadow-xs">
+                    <Mail className="h-5 w-5" strokeWidth={2} />
+                  </div>
+                  <div>
+                    <div className="text-xs font-bold text-[#0F172A]">Email Us</div>
+                    <a
+                      href={`mailto:${CONTACT.email}`}
+                      className="text-xs sm:text-[13px] text-[#475569] hover:text-[#EA580C] transition-colors"
+                    >
+                      {CONTACT.email}
+                    </a>
+                  </div>
+                </div>
+
+                {/* Call */}
+                <div className="flex items-start gap-3.5">
+                  <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-[#FBE0D0] bg-[#FDF0E7] text-[#EA580C] shadow-xs">
+                    <Phone className="h-5 w-5" strokeWidth={2} />
+                  </div>
+                  <div>
+                    <div className="text-xs font-bold text-[#0F172A]">Call Us</div>
+                    <a
+                      href={CONTACT.phoneHref}
+                      className="text-xs sm:text-[13px] text-[#475569] hover:text-[#EA580C] transition-colors"
+                    >
+                      {CONTACT.phone}
+                    </a>
+                  </div>
+                </div>
+
+                {/* Office */}
+                <div className="flex items-start gap-3.5">
+                  <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-[#FBE0D0] bg-[#FDF0E7] text-[#EA580C] shadow-xs">
+                    <MapPin className="h-5 w-5" strokeWidth={2} />
+                  </div>
+                  <div>
+                    <div className="text-xs font-bold text-[#0F172A]">Our Office</div>
+                    <div className="text-xs text-[#475569] leading-relaxed max-w-[290px]">
+                      D-08, Everest Building, 5th Floor, <br />
+                      Pt. Madan Mohan Malaviya Marg, <br />
+                      Tardeo Circle, Mumbai, Maharashtra - 400034, India.
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Explore Products Button */}
+              <div className="mt-8 sm:mt-10">
+                <Link
+                  to="/products"
+                  className="group inline-flex items-center gap-2.5 rounded-full border border-[#0F172A] bg-white/70 px-7 py-3.5 text-xs sm:text-[13px] font-semibold text-[#0F172A] shadow-xs backdrop-blur-xs transition-all duration-200 hover:border-[#0F172A] hover:bg-white hover:-translate-y-0.5 active:scale-95"
+                >
+                  <span>Explore Our Products</span>
+                  <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" />
+                </Link>
+              </div>
+            </Reveal>
+          </div>
+
+          {/* Right Column: Interactive White Enquiry Form Card */}
+          <div className="lg:col-span-7 xl:col-span-6 xl:col-start-7">
+            <Reveal delay={0.15}>
+              <EnquiryForm />
+            </Reveal>
+          </div>
+        </div>
       </div>
     </section>
   );

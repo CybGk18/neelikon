@@ -207,7 +207,7 @@ export function ProductUniverse({ heading = "h2" }: { heading?: "h1" | "h2" }) {
   const H = heading;
 
   return (
-    <section id="products" className="scroll-mt-20 bg-[#FAF8F5] py-20 lg:py-28 relative">
+    <section id="products" className="scroll-mt-20 bg-[#FAF8F5] pt-16 pb-8 sm:pt-20 sm:pb-10 lg:pt-24 lg:pb-12 relative">
       <div className="container-x">
         {/* Editorial Section Header */}
         <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between pb-12 border-b border-stone-200/80">
