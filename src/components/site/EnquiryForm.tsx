@@ -149,17 +149,17 @@ export function EnquiryForm({
     return (
       <div
         role="status"
-        className="rounded-[28px] bg-white p-8 sm:p-12 shadow-2xl border border-slate-100 flex flex-col items-start gap-4"
+        className="rounded-2xl bg-[#FCFAF7] p-6 sm:p-8 lg:p-9 shadow-[0_10px_35px_-5px_rgba(15,23,42,0.06),0_2px_8px_-2px_rgba(15,23,42,0.03)] border border-[#E8E2D8] flex flex-col items-start gap-4"
       >
-        <div className="flex h-14 w-14 items-center justify-center rounded-full bg-emerald-50 text-emerald-600">
-          <CheckCircle2 className="h-8 w-8" />
+        <div className="flex h-12 w-12 items-center justify-center rounded-full bg-emerald-50 text-emerald-600">
+          <CheckCircle2 className="h-6 w-6" />
         </div>
         <h3 className="font-serif text-2xl font-bold text-[#0F172A]">
           {state === "sent"
             ? "Thank you — your enquiry has been received."
             : "Your email app should now be open with your enquiry ready."}
         </h3>
-        <p className="text-sm text-[#475569] leading-relaxed">
+        <p className="text-xs sm:text-sm text-[#475569] leading-relaxed">
           {state === "mail" ? (
             <>
               Your enquiry is delivered once you press send in your email app. If it didn't open, write to{" "}
@@ -181,7 +181,7 @@ export function EnquiryForm({
             setV(EMPTY);
             setState("idle");
           }}
-          className="mt-4 inline-flex items-center gap-2 rounded-full bg-[#0F172A] px-6 py-2.5 text-xs font-semibold text-white transition-all hover:bg-[#1E293B]"
+          className="mt-2 inline-flex items-center gap-2 rounded-full bg-[#0F172A] px-5 py-2 text-xs font-semibold text-white transition-all hover:bg-[#1E293B] cursor-pointer"
         >
           Start a new enquiry
         </button>
@@ -190,36 +190,36 @@ export function EnquiryForm({
   }
 
   return (
-    <div className="rounded-[28px] bg-[#FAF8F5] p-7 sm:p-9 lg:p-10 shadow-2xl border border-white/80">
-      {/* Header Eyebrow & Title */}
+    <div className="relative rounded-2xl bg-[#FCFAF7] p-6 sm:p-8 lg:p-8 shadow-[0_10px_35px_-5px_rgba(15,23,42,0.06),0_2px_8px_-2px_rgba(15,23,42,0.03)] border border-[#E8E2D8]">
+      {/* Header Eyebrow, Title & Compact Description */}
       <div>
-        <p className="text-[11px] sm:text-xs font-bold tracking-[0.18em] text-[#EA580C] uppercase">
+        <p className="text-[11px] font-bold tracking-[0.2em] text-[#EA580C] uppercase">
           Send Us An Enquiry
         </p>
-        <h3 className="font-serif text-2xl sm:text-[28px] lg:text-[30px] font-bold text-[#0F172A] mt-1.5 tracking-tight">
+        <h3 className="font-serif text-2xl sm:text-[26px] font-bold text-[#0F172A] mt-1 tracking-tight">
           Discuss Your Requirements
         </h3>
-        <p className="mt-2 text-xs sm:text-[13px] text-[#475569] leading-relaxed">
-          Share a few details and our team will get in touch with you shortly to understand your
+        <p className="mt-1.5 text-xs sm:text-[13px] text-[#475569] leading-relaxed max-w-lg">
+          Share a few details and our team will get in touch shortly to understand your
           needs and suggest the right colour solutions.
         </p>
       </div>
 
-      <form noValidate onSubmit={submit} className="mt-6 sm:mt-7 space-y-4">
+      <form noValidate onSubmit={submit} className="mt-5 sm:mt-6 space-y-3.5 sm:space-y-4">
         {/* Row 1: Name & Company Name */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4">
           <div>
             <label htmlFor="f-name" className="block text-[12px] font-semibold text-[#1E293B] mb-1.5">
               Name <span className="text-red-500">*</span>
             </label>
             <div
-              className={`flex items-center gap-2.5 rounded-xl border bg-[#F7F4EE] px-3.5 h-11 transition-all ${
+              className={`flex items-center gap-2.5 rounded-xl border bg-[#F8F6F1] px-3.5 h-11 transition-all ${
                 err.name
-                  ? "border-red-400 bg-red-50/30"
-                  : "border-[#E5E0D8] focus-within:border-[#EA580C] focus-within:bg-white focus-within:shadow-xs"
+                  ? "border-red-400 bg-red-50/25"
+                  : "border-[#E4DFD5] hover:border-[#D1C9BC] focus-within:border-[#EA580C] focus-within:bg-white focus-within:ring-2 focus-within:ring-[#EA580C]/10"
               }`}
             >
-              <User className="h-4 w-4 text-slate-400 shrink-0" />
+              <User className="h-4 w-4 text-[#94A3B8] shrink-0" />
               <input
                 id="f-name"
                 type="text"
@@ -228,7 +228,7 @@ export function EnquiryForm({
                 value={v.name}
                 onChange={set("name")}
                 aria-invalid={!!err.name}
-                className="w-full bg-transparent text-xs sm:text-[13px] text-[#0F172A] placeholder:text-slate-400 focus:outline-none"
+                className="w-full bg-transparent text-xs sm:text-[13px] text-[#0F172A] placeholder:text-[#8896A6] focus:outline-none"
               />
             </div>
             {err.name && <p className="mt-1 text-[11px] text-red-500 font-medium">{err.name}</p>}
@@ -239,13 +239,13 @@ export function EnquiryForm({
               Company Name <span className="text-red-500">*</span>
             </label>
             <div
-              className={`flex items-center gap-2.5 rounded-xl border bg-[#F7F4EE] px-3.5 h-11 transition-all ${
+              className={`flex items-center gap-2.5 rounded-xl border bg-[#F8F6F1] px-3.5 h-11 transition-all ${
                 err.company
-                  ? "border-red-400 bg-red-50/30"
-                  : "border-[#E5E0D8] focus-within:border-[#EA580C] focus-within:bg-white focus-within:shadow-xs"
+                  ? "border-red-400 bg-red-50/25"
+                  : "border-[#E4DFD5] hover:border-[#D1C9BC] focus-within:border-[#EA580C] focus-within:bg-white focus-within:ring-2 focus-within:ring-[#EA580C]/10"
               }`}
             >
-              <Building2 className="h-4 w-4 text-slate-400 shrink-0" />
+              <Building2 className="h-4 w-4 text-[#94A3B8] shrink-0" />
               <input
                 id="f-company"
                 type="text"
@@ -254,7 +254,7 @@ export function EnquiryForm({
                 value={v.company}
                 onChange={set("company")}
                 aria-invalid={!!err.company}
-                className="w-full bg-transparent text-xs sm:text-[13px] text-[#0F172A] placeholder:text-slate-400 focus:outline-none"
+                className="w-full bg-transparent text-xs sm:text-[13px] text-[#0F172A] placeholder:text-[#8896A6] focus:outline-none"
               />
             </div>
             {err.company && <p className="mt-1 text-[11px] text-red-500 font-medium">{err.company}</p>}
@@ -262,19 +262,19 @@ export function EnquiryForm({
         </div>
 
         {/* Row 2: Business Email & Country */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4">
           <div>
             <label htmlFor="f-email" className="block text-[12px] font-semibold text-[#1E293B] mb-1.5">
               Business Email <span className="text-red-500">*</span>
             </label>
             <div
-              className={`flex items-center gap-2.5 rounded-xl border bg-[#F7F4EE] px-3.5 h-11 transition-all ${
+              className={`flex items-center gap-2.5 rounded-xl border bg-[#F8F6F1] px-3.5 h-11 transition-all ${
                 err.email
-                  ? "border-red-400 bg-red-50/30"
-                  : "border-[#E5E0D8] focus-within:border-[#EA580C] focus-within:bg-white focus-within:shadow-xs"
+                  ? "border-red-400 bg-red-50/25"
+                  : "border-[#E4DFD5] hover:border-[#D1C9BC] focus-within:border-[#EA580C] focus-within:bg-white focus-within:ring-2 focus-within:ring-[#EA580C]/10"
               }`}
             >
-              <Mail className="h-4 w-4 text-slate-400 shrink-0" />
+              <Mail className="h-4 w-4 text-[#94A3B8] shrink-0" />
               <input
                 id="f-email"
                 type="email"
@@ -283,7 +283,7 @@ export function EnquiryForm({
                 value={v.email}
                 onChange={set("email")}
                 aria-invalid={!!err.email}
-                className="w-full bg-transparent text-xs sm:text-[13px] text-[#0F172A] placeholder:text-slate-400 focus:outline-none"
+                className="w-full bg-transparent text-xs sm:text-[13px] text-[#0F172A] placeholder:text-[#8896A6] focus:outline-none"
               />
             </div>
             {err.email && <p className="mt-1 text-[11px] text-red-500 font-medium">{err.email}</p>}
@@ -294,20 +294,20 @@ export function EnquiryForm({
               Country <span className="text-red-500">*</span>
             </label>
             <div
-              className={`relative flex items-center gap-2.5 rounded-xl border bg-[#F7F4EE] px-3.5 h-11 transition-all ${
+              className={`relative flex items-center gap-2.5 rounded-xl border bg-[#F8F6F1] px-3.5 h-11 transition-all ${
                 err.country
-                  ? "border-red-400 bg-red-50/30"
-                  : "border-[#E5E0D8] focus-within:border-[#EA580C] focus-within:bg-white focus-within:shadow-xs"
+                  ? "border-red-400 bg-red-50/25"
+                  : "border-[#E4DFD5] hover:border-[#D1C9BC] focus-within:border-[#EA580C] focus-within:bg-white focus-within:ring-2 focus-within:ring-[#EA580C]/10"
               }`}
             >
-              <Globe className="h-4 w-4 text-slate-400 shrink-0" />
+              <Globe className="h-4 w-4 text-[#94A3B8] shrink-0" />
               <select
                 id="f-country"
                 value={v.country}
                 onChange={set("country")}
                 aria-invalid={!!err.country}
                 className={`w-full bg-transparent text-xs sm:text-[13px] focus:outline-none appearance-none cursor-pointer pr-6 ${
-                  v.country ? "text-[#0F172A]" : "text-slate-400"
+                  v.country ? "text-[#0F172A]" : "text-[#8896A6]"
                 }`}
               >
                 <option value="" disabled>
@@ -319,26 +319,26 @@ export function EnquiryForm({
                   </option>
                 ))}
               </select>
-              <ChevronDown className="h-4 w-4 text-slate-400 pointer-events-none absolute right-3" />
+              <ChevronDown className="h-4 w-4 text-[#94A3B8] pointer-events-none absolute right-3" />
             </div>
             {err.country && <p className="mt-1 text-[11px] text-red-500 font-medium">{err.country}</p>}
           </div>
         </div>
 
         {/* Row 3: Contact Number & Product / Family */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4">
           <div>
             <label htmlFor="f-phone" className="block text-[12px] font-semibold text-[#1E293B] mb-1.5">
               Contact Number <span className="text-red-500">*</span>
             </label>
             <div
-              className={`flex items-center gap-2.5 rounded-xl border bg-[#F7F4EE] px-3.5 h-11 transition-all ${
+              className={`flex items-center gap-2.5 rounded-xl border bg-[#F8F6F1] px-3.5 h-11 transition-all ${
                 err.phone
-                  ? "border-red-400 bg-red-50/30"
-                  : "border-[#E5E0D8] focus-within:border-[#EA580C] focus-within:bg-white focus-within:shadow-xs"
+                  ? "border-red-400 bg-red-50/25"
+                  : "border-[#E4DFD5] hover:border-[#D1C9BC] focus-within:border-[#EA580C] focus-within:bg-white focus-within:ring-2 focus-within:ring-[#EA580C]/10"
               }`}
             >
-              <Phone className="h-4 w-4 text-slate-400 shrink-0" />
+              <Phone className="h-4 w-4 text-[#94A3B8] shrink-0" />
               <input
                 id="f-phone"
                 type="tel"
@@ -347,7 +347,7 @@ export function EnquiryForm({
                 value={v.phone}
                 onChange={set("phone")}
                 aria-invalid={!!err.phone}
-                className="w-full bg-transparent text-xs sm:text-[13px] text-[#0F172A] placeholder:text-slate-400 focus:outline-none"
+                className="w-full bg-transparent text-xs sm:text-[13px] text-[#0F172A] placeholder:text-[#8896A6] focus:outline-none"
               />
             </div>
             {err.phone && <p className="mt-1 text-[11px] text-red-500 font-medium">{err.phone}</p>}
@@ -358,20 +358,20 @@ export function EnquiryForm({
               Product or Product Family <span className="text-red-500">*</span>
             </label>
             <div
-              className={`relative flex items-center gap-2.5 rounded-xl border bg-[#F7F4EE] px-3.5 h-11 transition-all ${
+              className={`relative flex items-center gap-2.5 rounded-xl border bg-[#F8F6F1] px-3.5 h-11 transition-all ${
                 err.product
-                  ? "border-red-400 bg-red-50/30"
-                  : "border-[#E5E0D8] focus-within:border-[#EA580C] focus-within:bg-white focus-within:shadow-xs"
+                  ? "border-red-400 bg-red-50/25"
+                  : "border-[#E4DFD5] hover:border-[#D1C9BC] focus-within:border-[#EA580C] focus-within:bg-white focus-within:ring-2 focus-within:ring-[#EA580C]/10"
               }`}
             >
-              <FlaskConical className="h-4 w-4 text-slate-400 shrink-0" />
+              <FlaskConical className="h-4 w-4 text-[#94A3B8] shrink-0" />
               <select
                 id="f-product"
                 value={v.product}
                 onChange={set("product")}
                 aria-invalid={!!err.product}
                 className={`w-full bg-transparent text-xs sm:text-[13px] focus:outline-none appearance-none cursor-pointer pr-6 ${
-                  v.product ? "text-[#0F172A]" : "text-slate-400"
+                  v.product ? "text-[#0F172A]" : "text-[#8896A6]"
                 }`}
               >
                 <option value="" disabled>
@@ -383,7 +383,7 @@ export function EnquiryForm({
                   </option>
                 ))}
               </select>
-              <ChevronDown className="h-4 w-4 text-slate-400 pointer-events-none absolute right-3" />
+              <ChevronDown className="h-4 w-4 text-[#94A3B8] pointer-events-none absolute right-3" />
             </div>
             {err.product && <p className="mt-1 text-[11px] text-red-500 font-medium">{err.product}</p>}
           </div>
@@ -394,15 +394,15 @@ export function EnquiryForm({
           <label htmlFor="f-application" className="block text-[12px] font-semibold text-[#1E293B] mb-1.5">
             Application or End Use (Optional)
           </label>
-          <div className="flex items-center gap-2.5 rounded-xl border border-[#E5E0D8] bg-[#F7F4EE] px-3.5 h-11 transition-all focus-within:border-[#EA580C] focus-within:bg-white focus-within:shadow-xs">
-            <FileText className="h-4 w-4 text-slate-400 shrink-0" />
+          <div className="flex items-center gap-2.5 rounded-xl border border-[#E4DFD5] hover:border-[#D1C9BC] bg-[#F8F6F1] px-3.5 h-11 transition-all focus-within:border-[#EA580C] focus-within:bg-white focus-within:ring-2 focus-within:ring-[#EA580C]/10">
+            <FileText className="h-4 w-4 text-[#94A3B8] shrink-0" />
             <input
               id="f-application"
               type="text"
               placeholder="e.g. Food, Pharma, Cosmetics, Coatings, etc."
               value={v.application}
               onChange={set("application")}
-              className="w-full bg-transparent text-xs sm:text-[13px] text-[#0F172A] placeholder:text-slate-400 focus:outline-none"
+              className="w-full bg-transparent text-xs sm:text-[13px] text-[#0F172A] placeholder:text-[#8896A6] focus:outline-none"
             />
           </div>
         </div>
@@ -413,13 +413,13 @@ export function EnquiryForm({
             Message
           </label>
           <div
-            className={`flex items-start gap-2.5 rounded-xl border bg-[#F7F4EE] p-3 transition-all ${
+            className={`flex items-start gap-2.5 rounded-xl border bg-[#F8F6F1] p-3 transition-all ${
               err.message
-                ? "border-red-400 bg-red-50/30"
-                : "border-[#E5E0D8] focus-within:border-[#EA580C] focus-within:bg-white focus-within:shadow-xs"
+                ? "border-red-400 bg-red-50/25"
+                : "border-[#E4DFD5] hover:border-[#D1C9BC] focus-within:border-[#EA580C] focus-within:bg-white focus-within:ring-2 focus-within:ring-[#EA580C]/10"
             }`}
           >
-            <MessageSquare className="h-4 w-4 text-slate-400 shrink-0 mt-1" />
+            <MessageSquare className="h-4 w-4 text-[#94A3B8] shrink-0 mt-0.5" />
             <textarea
               id="f-message"
               rows={3}
@@ -427,7 +427,7 @@ export function EnquiryForm({
               value={v.message}
               onChange={set("message")}
               aria-invalid={!!err.message}
-              className="w-full bg-transparent text-xs sm:text-[13px] text-[#0F172A] placeholder:text-slate-400 focus:outline-none resize-none leading-relaxed"
+              className="w-full bg-transparent text-xs sm:text-[13px] text-[#0F172A] placeholder:text-[#8896A6] focus:outline-none resize-none leading-relaxed"
             />
           </div>
           {err.message && <p className="mt-1 text-[11px] text-red-500 font-medium">{err.message}</p>}
@@ -439,20 +439,20 @@ export function EnquiryForm({
           </p>
         )}
 
-        {/* Bottom Actions Row */}
-        <div className="pt-2 flex flex-wrap items-center gap-4 sm:gap-5 justify-between">
+        {/* Bottom Actions Row: Send Enquiry Button & Email Helper Aligned Neatly on Baseline */}
+        <div className="pt-2 flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4">
           <button
             type="submit"
             disabled={state === "sending"}
-            className="group inline-flex items-center gap-2.5 rounded-full bg-gradient-to-r from-[#F95721] to-[#FF6B35] px-8 py-3 text-sm font-semibold text-white shadow-md shadow-orange-500/25 transition-all duration-200 hover:shadow-orange-500/35 hover:-translate-y-0.5 active:scale-95 disabled:opacity-60"
+            className="group inline-flex items-center justify-center gap-2 rounded-full bg-[#EA580C] hover:bg-[#D94F06] px-6 sm:px-7 py-2.5 text-xs sm:text-[13px] font-semibold text-white shadow-xs transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98] disabled:opacity-60 cursor-pointer"
           >
             <span>{state === "sending" ? "Preparing…" : "Send Enquiry"}</span>
-            <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" />
+            <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5" />
           </button>
 
           {!ENQUIRY_ENDPOINT && (
-            <div className="flex items-center gap-2 text-xs text-[#64748B]">
-              <Lock className="h-3.5 w-3.5 shrink-0 text-slate-400" />
+            <div className="flex items-center gap-1.5 text-[11px] sm:text-xs text-[#64748B]">
+              <Lock className="h-3.5 w-3.5 shrink-0 text-[#94A3B8]" />
               <span>Opens your email app with the enquiry filled in.</span>
             </div>
           )}

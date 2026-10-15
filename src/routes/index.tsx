@@ -343,7 +343,7 @@ function Science() {
                       src={card.watermark}
                       alt=""
                       aria-hidden="true"
-                      className="h-full w-full object-cover object-right opacity-80 group-hover:scale-105 group-hover:opacity-95 transition-all duration-500"
+                      className="h-full w-full object-contain object-right opacity-90 group-hover:scale-105 group-hover:opacity-100 transition-all duration-500"
                     />
                   </div>
 
@@ -872,17 +872,28 @@ function Testimonial() {
 function Contact() {
   return (
     <section id="contact" className="relative overflow-hidden bg-[#FAF7F2] text-[#0F172A] py-16 sm:py-20 lg:py-28 scroll-mt-16">
-      {/* Desktop Cinematic Laboratory & Organic Wave Backdrop */}
+      {/* Subtle Warm Amber Glow behind the form corner */}
       <div
-        className="absolute inset-y-0 right-0 w-full lg:w-[68%] xl:w-[65%] h-full pointer-events-none select-none overflow-hidden hidden lg:block"
+        className="pointer-events-none absolute -top-16 right-0 sm:right-10 h-[420px] w-[420px] rounded-full blur-3xl opacity-35 select-none hidden sm:block"
+        style={{
+          background: "radial-gradient(circle, rgba(251, 191, 36, 0.4) 0%, rgba(249, 115, 22, 0.12) 45%, transparent 70%)",
+        }}
+        aria-hidden="true"
+      />
+
+      {/* Restrained Navy-Blue Accent Shape with Smooth Organic Curves */}
+      <svg
+        className="pointer-events-none absolute right-0 top-0 h-full w-[40%] max-w-[500px] opacity-[0.035] select-none hidden lg:block"
+        viewBox="0 0 500 700"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
         aria-hidden="true"
       >
-        <img
-          src="/images/contact/contact-backdrop-clean.png"
-          alt=""
-          className="w-full h-full object-cover object-left"
+        <path
+          d="M 140 0 C 260 80, 380 150, 410 300 C 440 450, 340 540, 430 700 L 500 700 L 500 0 Z"
+          fill="#0F172A"
         />
-      </div>
+      </svg>
 
       {/* Golden Ambient Curve Lines on Left Canvas */}
       <svg
