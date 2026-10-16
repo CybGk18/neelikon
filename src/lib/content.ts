@@ -57,7 +57,7 @@ export const ABOUT_IMG = {
   oneWorld: `${U}/2025/09/One-World-One-Quality-Colours.png`,
 };
 
-export const NEWS = [1, 2, 3, 4].map((n) => `${U}/2021/12/News-Event-${n}.jpg`);
+export const NEWS = [1, 2, 3, 4].map((n) => `/images/news/News-Event-${n}.png`);
 
 export const CERT_LOGOS = [
   `${U}/2025/09/Neelikon-ISO-9001-2015-Logo-225-X-85.png`,

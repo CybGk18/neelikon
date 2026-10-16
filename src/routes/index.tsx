@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { motion, useReducedMotion, useScroll, useTransform } from "motion/react";
-import { ArrowDown, ArrowRight, Mail, MapPin, Phone, Activity, FlaskConical, Microscope, Network, Settings, ShieldCheck, Globe, Users, Handshake, Play } from "lucide-react";
+import { ArrowDown, ArrowRight, Mail, MapPin, Phone, FlaskConical, ShieldCheck, Globe, Users, Handshake, Play } from "lucide-react";
 import { useRef } from "react";
 import lab from "@/assets/lab.jpg";
 import globe from "@/assets/globe.jpg";
@@ -226,66 +226,48 @@ function Industries() {
   );
 }
 
-const SCIENCE_CAPS = [
+const SCIENCE_STEPS = [
   {
-    tag: "R&D / 01",
-    title: "Research & development",
-    desc: "Innovative colour solutions through continuous research and development.",
-    badgeBg: "bg-[#0284c7]",
-    tagColor: "text-[#0284c7]",
-    icon: Microscope,
-    watermark: "/images/science/card-1-watermark.png",
+    num: "01",
+    numColor: "text-[#0284C7]",
+    title: "Research & Development",
+    desc: "Innovative colour solutions through continuous research.",
   },
   {
-    tag: "R&D / 02",
-    title: "HPLC – High-performance liquid chromatography",
+    num: "02",
+    numColor: "text-[#EA580C]",
+    title: "HPLC - High-performance liquid chromatography",
     desc: "Precise analysis for consistent quality and performance.",
-    badgeBg: "bg-[#ea580c]",
-    tagColor: "text-[#ea580c]",
-    icon: Activity,
-    watermark: "/images/science/card-2-watermark.png",
   },
   {
-    tag: "R&D / 03",
+    num: "03",
+    numColor: "text-[#7C3AED]",
     title: "Ion chromatography",
     desc: "Accurate detection for superior colour formulation.",
-    badgeBg: "bg-[#7c3aed]",
-    tagColor: "text-[#7c3aed]",
-    icon: Network,
-    watermark: "/images/science/card-3-watermark.png",
   },
   {
-    tag: "R&D / 04",
+    num: "04",
+    numColor: "text-[#059669]",
     title: "Gas chromatography",
     desc: "Reliable testing for purity and composition.",
-    badgeBg: "bg-[#059669]",
-    tagColor: "text-[#059669]",
-    icon: FlaskConical,
-    watermark: "/images/science/card-4-watermark.png",
   },
   {
-    tag: "R&D / 05",
+    num: "05",
+    numColor: "text-[#D97706]",
     title: "ICP-OES analytical instrumentation",
     desc: "Advanced elemental analysis for complete quality assurance.",
-    badgeBg: "bg-[#f59e0b]",
-    tagColor: "text-[#d97706]",
-    icon: Settings,
-    watermark: "/images/science/card-5-watermark.png",
   },
   {
-    tag: "R&D / 06",
+    num: "06",
+    numColor: "text-[#0284C7]",
     title: "Product quality & testing processes",
     desc: "Rigorous testing to ensure colour consistency and reliability.",
-    badgeBg: "bg-[#0284c7]",
-    tagColor: "text-[#0284c7]",
-    icon: ShieldCheck,
-    watermark: "/images/science/card-6-watermark.png",
   },
 ];
 
 function Science() {
   return (
-    <section id="innovation" className="scroll-mt-20 bg-[#FAF7F2] pt-6 sm:pt-8 lg:pt-10 pb-20 sm:pb-28 lg:py-32 overflow-hidden text-[#0F172A] relative">
+    <section id="innovation" className="scroll-mt-20 bg-[#FAF7F2] pt-8 sm:pt-12 lg:pt-16 pb-20 sm:pb-28 lg:pb-32 overflow-hidden text-[#0F172A] relative">
       {/* Subtle concentric vector contour rings matching the mockup background */}
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 select-none overflow-hidden">
         <div className="absolute top-0 left-0 w-[550px] h-[550px] -translate-x-1/4 -translate-y-1/4 rounded-full border border-slate-300/35" />
@@ -293,91 +275,93 @@ function Science() {
         <div className="absolute top-0 left-0 w-[1100px] h-[1100px] -translate-x-1/4 -translate-y-1/4 rounded-full border border-slate-300/15" />
       </div>
 
-      <div className="container-x relative z-10">
+      <div className="container-x relative z-10 max-w-7xl mx-auto">
         {/* Top Header & Laboratory Hero Composition */}
-        <div className="grid gap-10 lg:grid-cols-12 lg:items-center">
-          <Reveal className="lg:col-span-6 xl:col-span-5">
+        <div className="grid gap-8 lg:gap-12 lg:grid-cols-12 lg:items-center">
+          {/* Left Column: Eyebrow, Display Headline, Description, Orange Accent Line */}
+          <Reveal className="lg:col-span-5 xl:col-span-5">
             <div className="flex items-center gap-2.5">
               <span className="h-[2px] w-6 bg-[#0284c7] rounded-full" />
               <p className="text-xs font-bold uppercase tracking-[0.22em] text-[#64748b]">
                 Science meets precision
               </p>
             </div>
-            <h2 className="mt-4 font-extrabold tracking-tight text-[#0f172a] text-4xl sm:text-5xl lg:text-[3.5rem] leading-[1.06]">
+            <h2 className="mt-4 font-serif font-bold tracking-tight text-[#0f172a] text-4xl sm:text-5xl lg:text-[3.5rem] leading-[1.08]">
               Beautiful colour.
-              <span className="block font-serif font-normal italic text-[#ea580c] mt-1 text-4xl sm:text-5xl lg:text-[3.75rem]">
+              <span className="block font-serif font-normal italic text-[#ea580c] mt-1 text-4xl sm:text-5xl lg:text-[3.65rem]">
                 Serious science.
               </span>
             </h2>
-            <p className="mt-5 text-base sm:text-lg text-[#64748b] leading-relaxed max-w-lg">
+            <p className="mt-5 text-sm sm:text-base text-[#64748b] leading-relaxed max-w-lg">
               Behind every colourant is a commitment to analytical rigour, product consistency, and continuous improvement.
             </p>
+            <div className="mt-6 h-[2.5px] w-12 bg-[#ea580c] rounded-full" />
           </Reveal>
 
-          <Reveal className="lg:col-span-6 xl:col-span-7 flex items-center justify-center lg:justify-end" delay={0.15}>
-            <div className="relative w-full max-w-[640px] lg:max-w-none flex items-center justify-center lg:justify-end">
+          {/* Right Column: Lab Artwork with HPLC Instrument & Circular Inset */}
+          <Reveal className="lg:col-span-7 xl:col-span-7 flex items-center justify-center lg:justify-end" delay={0.15}>
+            <div className="relative w-full max-w-[640px] lg:max-w-none flex items-center justify-center lg:justify-end overflow-visible">
               <img
-                src="/images/science/lab-composition.png"
+                src="/images/home/right image.png"
                 alt="Analytical laboratory with HPLC instrumentation and chemical colour testing"
+                width={1602}
+                height={982}
                 loading="lazy"
-                className="w-full h-auto max-h-[440px] lg:max-h-[500px] object-contain select-none pointer-events-none drop-shadow-[0_15px_35px_rgba(35,58,133,0.04)]"
+                className="w-full h-auto max-h-[460px] lg:max-h-[520px] object-contain select-none pointer-events-none mix-blend-multiply"
                 style={{
-                  maskImage: "radial-gradient(ellipse at 65% 50%, black 65%, rgba(0,0,0,0.7) 82%, transparent 98%)",
-                  WebkitMaskImage: "radial-gradient(ellipse at 65% 50%, black 65%, rgba(0,0,0,0.7) 82%, transparent 98%)",
+                  maskImage:
+                    "linear-gradient(to right, transparent 0%, black 3%, black 97%, transparent 100%), linear-gradient(to bottom, transparent 0%, black 3%, black 97%, transparent 100%)",
+                  WebkitMaskImage:
+                    "linear-gradient(to right, transparent 0%, black 3%, black 97%, transparent 100%), linear-gradient(to bottom, transparent 0%, black 3%, black 97%, transparent 100%)",
+                  maskComposite: "intersect",
+                  WebkitMaskComposite: "source-in",
                 }}
               />
             </div>
           </Reveal>
         </div>
+      </div>
 
-        {/* 6 Capabilities Cards Grid */}
-        <div className="mt-14 sm:mt-18 lg:mt-20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {SCIENCE_CAPS.map((card, idx) => {
-            const Icon = card.icon;
-            return (
-              <Reveal key={card.title} delay={idx * 0.07}>
-                <div className="group relative h-full rounded-2xl bg-white border border-slate-100/90 p-6 sm:p-7 shadow-[0_4px_25px_rgba(0,0,0,0.025)] hover:shadow-[0_12px_30px_rgba(0,0,0,0.06)] hover:-translate-y-0.5 transition-all duration-300 overflow-hidden flex flex-col justify-between min-h-[165px]">
-                  {/* Subtle right-side watermark graphic matching the design */}
-                  <div className="absolute right-0 top-0 bottom-0 w-[50%] pointer-events-none select-none overflow-hidden">
-                    <img
-                      src={card.watermark}
-                      alt=""
-                      aria-hidden="true"
-                      className="h-full w-full object-contain object-right opacity-90 group-hover:scale-105 group-hover:opacity-100 transition-all duration-500"
-                    />
-                  </div>
+      {/* Bottom Process Workflow: 6 Stages + Zigzag Ribbon */}
+      <div className="relative w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-14 sm:mt-20 lg:mt-24 z-10">
+        <Reveal delay={0.2}>
+          {/* 6 Stage Text Columns */}
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6 sm:gap-4 lg:gap-4 mb-4 sm:mb-6">
+            {SCIENCE_STEPS.map((step) => (
+              <div key={step.num} className="flex flex-col pr-2">
+                <span className={`font-mono text-xl sm:text-2xl font-extrabold tracking-tight ${step.numColor}`}>
+                  {step.num}
+                </span>
+                <h3 className="mt-2 text-xs sm:text-[13px] font-bold text-[#0f172a] leading-snug tracking-tight">
+                  {step.title}
+                </h3>
+                <p className="mt-1.5 text-[11px] sm:text-xs text-[#64748b] leading-relaxed">
+                  {step.desc}
+                </p>
+              </div>
+            ))}
+          </div>
 
-                  {/* Top: Icon & Step Tag */}
-                  <div className="relative z-10">
-                    <div className="flex items-center gap-3">
-                      <div className={`w-11 h-11 rounded-full ${card.badgeBg} flex items-center justify-center text-white shadow-sm shrink-0`}>
-                        <Icon className="w-5 h-5" />
-                      </div>
-                      <span className={`font-mono text-xs font-bold tracking-wider ${card.tagColor}`}>
-                        {card.tag}
-                      </span>
-                    </div>
-
-                    {/* Title & Description */}
-                    <h3 className="text-base sm:text-[1.1rem] font-bold text-[#0f172a] mt-3.5 leading-snug tracking-tight pr-6">
-                      {card.title}
-                    </h3>
-                    <p className="mt-2 text-xs sm:text-sm text-[#64748b] leading-relaxed max-w-[260px] sm:max-w-[280px]">
-                      {card.desc}
-                    </p>
-                  </div>
-
-                  {/* Bottom-right interactive action circle */}
-                  <div className="relative z-10 mt-5 flex justify-end">
-                    <div className="w-8 h-8 rounded-full border border-slate-200 bg-white/90 backdrop-blur-sm flex items-center justify-center text-slate-500 group-hover:border-[#0284c7] group-hover:text-[#0284c7] group-hover:translate-x-0.5 transition-all duration-300 shadow-sm">
-                      <ArrowRight className="w-3.5 h-3.5" />
-                    </div>
-                  </div>
-                </div>
-              </Reveal>
-            );
-          })}
-        </div>
+          {/* Zigzag Ribbon Infographic */}
+          <div className="relative w-full flex items-center justify-center select-none overflow-visible pt-2">
+            <img
+              src="/images/home/zigzag.png"
+              alt="Analytical stages workflow: Research & Development, HPLC, Ion chromatography, Gas chromatography, ICP-OES, and Product quality testing"
+              width={2170}
+              height={725}
+              loading="lazy"
+              className="w-full h-auto object-contain block select-none mix-blend-multiply"
+              style={{
+                maskImage:
+                  "linear-gradient(to right, transparent 0%, black 3%, black 97%, transparent 100%), linear-gradient(to bottom, transparent 0%, black 4%, black 96%, transparent 100%)",
+                WebkitMaskImage:
+                  "linear-gradient(to right, transparent 0%, black 3%, black 97%, transparent 100%), linear-gradient(to bottom, transparent 0%, black 4%, black 96%, transparent 100%)",
+                maskComposite: "intersect",
+                WebkitMaskComposite: "source-in",
+              }}
+            />
+          </div>
+        </Reveal>
       </div>
     </section>
   );
@@ -743,121 +727,85 @@ function Testimonial() {
         }}
       />
 
-      <div className="container-x relative z-10">
+      {/* Decorative blurred leaf on bottom-left */}
+      <img
+        src="/images/testimonial/leaf-bottom-pure.png"
+        alt=""
+        aria-hidden="true"
+        className="pointer-events-none select-none absolute bottom-0 left-0 w-20 sm:w-28 opacity-80 blur-[0.5px] z-0"
+      />
+
+      <div className="container-x relative z-10 mx-auto max-w-7xl">
         <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-12 lg:gap-8">
-          {/* Left Column: Testimonial Quote */}
-          <div className="lg:col-span-7 flex flex-col justify-between">
+          {/* Left Column: Partners Speak & Pioneers Quote */}
+          <div className="lg:col-span-6 flex flex-col justify-between z-10">
             <Reveal>
               {/* Eyebrow */}
-              <div className="flex items-center gap-2.5 text-xs font-bold uppercase tracking-widest text-slate-500">
-                <span className="h-0.5 w-6 bg-slate-900" />
+              <div className="flex items-center gap-2.5 text-xs font-bold uppercase tracking-[0.2em] text-slate-500">
+                <span className="h-[2px] w-6 bg-slate-500" />
                 <span>OUR PARTNERS SPEAK</span>
               </div>
 
-              {/* Quote Block with decorative quote marks */}
-              <div className="relative mt-8">
-                {/* Large Opening Quote Icon */}
-                <div
-                  aria-hidden="true"
-                  className="font-serif select-none pointer-events-none text-6xl sm:text-7xl leading-none text-sky-200/80 -mb-6 sm:-mb-8"
-                >
-                  “
-                </div>
-
-                <blockquote className="relative z-10 text-xl sm:text-2xl lg:text-[1.85rem] font-medium leading-[1.38] text-slate-900 tracking-tight">
-                  <span className="font-serif italic font-bold text-slate-950">
-                    Pioneers of the Colour and Dye Industry,{" "}
-                  </span>
-                  <span>
-                    Neelikon is a well-established name that has continued providing the{" "}
-                  </span>
-                  <span className="font-serif italic font-normal text-[#0284C7]">
-                    best quality products and efficient technical support{" "}
-                  </span>
-                  <span>
-                    to its customers for decades. We are happy to be associated with them and look forward to continuing to do so in the long future.
-                  </span>
-                </blockquote>
-
-                {/* Large Closing Quote Icon */}
-                <div className="flex justify-end">
-                  <span
-                    aria-hidden="true"
-                    className="font-serif select-none pointer-events-none text-5xl sm:text-6xl leading-none text-sky-200/80 -mt-3"
-                  >
-                    ”
-                  </span>
-                </div>
+              {/* Large Opening Quote Icon */}
+              <div
+                aria-hidden="true"
+                className="font-serif select-none pointer-events-none text-6xl sm:text-7xl leading-none text-[#BAE6FD] mt-6 -mb-4"
+              >
+                “
               </div>
 
+              {/* Headline */}
+              <h2 className="font-serif text-3xl sm:text-4xl lg:text-[2.85rem] text-[#0F172A] tracking-tight leading-[1.14] font-bold">
+                <span className="italic font-bold text-[#0284C7]">Pioneers</span> of the<br />
+                Colour and Dye Industry
+              </h2>
+
+              {/* Sub-quote Paragraph */}
+              <p className="mt-5 text-base sm:text-lg lg:text-[1.125rem] text-slate-700 leading-relaxed font-sans max-w-xl">
+                Neelikon has been delivering the{" "}
+                <span className="font-serif italic font-bold text-[#0284C7]">
+                  best quality products
+                </span>{" "}
+                with{" "}
+                <span className="font-serif italic font-bold text-[#0284C7]">
+                  reliable technical support
+                </span>{" "}
+                for decades.
+              </p>
+
+              {/* Thin Divider Line */}
+              <div className="mt-6 mb-6 h-[1.5px] w-16 sm:w-20 bg-[#93C5FD] rounded-full" />
+
               {/* Attribution */}
-              <div className="mt-6 sm:mt-8 flex items-center gap-2.5 text-xs font-semibold tracking-widest uppercase text-slate-500">
-                <span className="h-px w-6 bg-slate-400" />
-                <span>DISTRIBUTOR — FOOD — INDIA</span>
+              <div className="flex items-center gap-2 text-xs font-bold tracking-[0.2em] uppercase text-slate-500 font-mono">
+                <span>— DISTRIBUTOR — FOOD — INDIA</span>
+              </div>
+
+              {/* Subtle 6x4 Dot Matrix Pattern */}
+              <div className="mt-8 flex gap-2.5 opacity-60" aria-hidden="true">
+                {Array.from({ length: 6 }).map((_, col) => (
+                  <div key={col} className="flex flex-col gap-2.5">
+                    {Array.from({ length: 4 }).map((_, row) => (
+                      <span key={row} className="h-1.5 w-1.5 rounded-full bg-[#BAE6FD]" />
+                    ))}
+                  </div>
+                ))}
               </div>
             </Reveal>
           </div>
 
-          {/* Right Column: Precision Food Science & Technical Formulation */}
-          <div className="lg:col-span-5 relative flex items-center justify-center">
-            <Reveal delay={0.2} className="relative w-full max-w-[480px]">
-              <div className="relative">
-                {/* Subtle Decorative Planetary Orbital Ring */}
-                <svg
-                  className="absolute -top-8 -left-8 w-[115%] h-[115%] pointer-events-none z-10 hidden sm:block"
-                  viewBox="0 0 500 500"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                  aria-hidden="true"
-                >
-                  <circle
-                    cx="250"
-                    cy="250"
-                    r="230"
-                    stroke="#CBD5E1"
-                    strokeWidth="1.2"
-                    strokeDasharray="4 6"
-                    strokeOpacity="0.6"
-                  />
-                  <circle cx="250" cy="20" r="6" fill="#0284C7" />
-                  <circle cx="250" cy="20" r="10" stroke="#38BDF8" strokeWidth="1.5" strokeOpacity="0.4" />
-                  <circle cx="470" cy="300" r="5" fill="#EA580C" />
-                  <circle cx="470" cy="300" r="9" stroke="#F97316" strokeWidth="1.5" strokeOpacity="0.4" />
-                </svg>
-
-                {/* Main Image Container */}
-                <div className="relative overflow-hidden rounded-3xl border border-white/90 bg-white/60 p-2.5 shadow-2xl shadow-slate-200/60 backdrop-blur-xs transition-transform duration-700 hover:scale-[1.01]">
-                  <div className="overflow-hidden rounded-2xl relative">
-                    <img
-                      src="/images/testimonial/food-colour-lab.jpg"
-                      alt="Neelikon Food Grade Colour Quality Control & Technical Formulation Laboratory"
-                      className="w-full h-auto object-cover select-none pointer-events-none transition-transform duration-700 hover:scale-105"
-                      loading="lazy"
-                    />
-                    {/* Soft Ambient Overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-slate-900/30 via-transparent to-transparent pointer-events-none" />
-                  </div>
-                </div>
-
-                {/* Floating Quality Assurance Pill Badge (Top Right) */}
-                <div className="absolute -top-3.5 -right-3.5 sm:-top-4 sm:-right-4 z-20 flex items-center gap-2 rounded-full border border-white/90 bg-white/95 px-3.5 py-1.5 shadow-md shadow-slate-900/5 backdrop-blur-md">
-                  <span className="flex h-5 w-5 items-center justify-center rounded-full bg-emerald-50 text-emerald-600">
-                    <ShieldCheck className="h-3 w-3" />
-                  </span>
-                  <span className="text-[11px] font-semibold text-slate-800">
-                    Food Grade Certified
-                  </span>
-                </div>
-
-                {/* Floating Technical Support Badge (Bottom Left) */}
-                <div className="absolute -bottom-3.5 -left-3.5 sm:-bottom-4 sm:-left-4 z-20 flex items-center gap-2 rounded-full border border-white/90 bg-white/95 px-3.5 py-1.5 shadow-md shadow-slate-900/5 backdrop-blur-md">
-                  <span className="flex h-5 w-5 items-center justify-center rounded-full bg-sky-50 text-sky-600">
-                    <FlaskConical className="h-3 w-3" />
-                  </span>
-                  <span className="text-[11px] font-semibold text-slate-800">
-                    Formulation & Technical Support
-                  </span>
-                </div>
+          {/* Right Column: Composite Lab & Pigments Visual Artwork */}
+          <div className="lg:col-span-6 relative flex items-center justify-center lg:justify-end">
+            <Reveal delay={0.2} className="relative w-full max-w-[560px]">
+              <div className="relative select-none pointer-events-none transition-transform duration-700 hover:scale-[1.01]">
+                <img
+                  src="/images/testimonial/testimonial-right-composition.png"
+                  alt="Neelikon Laboratory Quality Control & Technical Formulation"
+                  width={574}
+                  height={409}
+                  className="w-full h-auto object-contain drop-shadow-sm"
+                  loading="lazy"
+                />
               </div>
             </Reveal>
           </div>

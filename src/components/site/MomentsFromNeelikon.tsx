@@ -1,180 +1,303 @@
-import { useState, useRef } from "react";
-import { motion } from "motion/react";
-import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
+import { useState, useEffect, useRef, useCallback } from "react";
+import { motion, AnimatePresence } from "motion/react";
+import { ArrowRight, ChevronLeft, ChevronRight, Pause, Play } from "lucide-react";
 import { Reveal } from "./Reveal";
+
+const AUTOPLAY_INTERVAL = 4500; // 4.5 seconds
 
 const MOMENTS = [
   {
     num: "01",
     date: "12 MAR 2023",
-    color: "#2563EB",
-    lineColor: "bg-blue-600",
-    numColor: "text-blue-200/70",
-    accentBg: "bg-blue-50/80 hover:bg-blue-100/90",
-    accentText: "text-blue-600",
-    accentBorder: "border-blue-200/80",
+    color: "#0284C7",
+    accentColor: "#E05322",
+    badgeBg: "bg-[#E0F2FE]",
+    badgeText: "text-[#0284C7]",
+    category: "Industry Recognition",
     title: "Export Award by CHEMEXCIL",
-    desc: "Recognition for outstanding export performance and contribution to the Indian colour and dye industry.",
-    img: "/images/news/News-Event-1.jpg",
+    desc: "Recognition for outstanding export performance and exceptional contribution to the Indian colour and dye industry, highlighting Neelikon's sustained global manufacturing excellence.",
+    img: "/images/news/News-Event-1.png",
     link: "https://neelikon.com/",
   },
   {
     num: "02",
     date: "18 OCT 2022",
-    color: "#F97316",
-    lineColor: "bg-orange-500",
-    numColor: "text-orange-200/70",
-    accentBg: "bg-orange-50/80 hover:bg-orange-100/90",
-    accentText: "text-orange-600",
-    accentBorder: "border-orange-200/80",
+    color: "#EA580C",
+    accentColor: "#EA580C",
+    badgeBg: "bg-[#FFEDD5]",
+    badgeText: "text-[#EA580C]",
+    category: "Global Growth",
     title: "Exporters' Excellence Award",
-    desc: "Honoured for consistent growth and global presence in specialty colour solutions.",
-    img: "/images/news/News-Event-2.jpg",
+    desc: "Honoured for consistent growth, rigorous regulatory compliance, and a strong international presence across key specialty colour markets worldwide.",
+    img: "/images/news/News-Event-2.png",
     link: "https://neelikon.com/",
   },
   {
     num: "03",
     date: "05 JUN 2021",
     color: "#10B981",
-    lineColor: "bg-emerald-500",
-    numColor: "text-emerald-200/70",
-    accentBg: "bg-emerald-50/80 hover:bg-emerald-100/90",
-    accentText: "text-emerald-600",
-    accentBorder: "border-emerald-200/80",
+    accentColor: "#10B981",
+    badgeBg: "bg-[#DCFCE7]",
+    badgeText: "text-[#16A34A]",
+    category: "Community & CSR",
     title: "Support to Child Development",
-    desc: "Neelikon as Chief Patron for the inauguration of Rise & Shine Child Development Centre.",
-    img: "/images/news/News-Event-3.jpg",
+    desc: "Neelikon as Chief Patron for the inauguration of Rise & Shine Child Development Centre, investing in comprehensive developmental healthcare and community wellbeing.",
+    img: "/images/news/News-Event-3.png",
     link: "https://neelikon.com/",
   },
   {
     num: "04",
     date: "20 AUG 2019",
-    color: "#F43F5E",
-    lineColor: "bg-rose-500",
-    numColor: "text-rose-200/70",
-    accentBg: "bg-rose-50/80 hover:bg-rose-100/90",
-    accentText: "text-rose-600",
-    accentBorder: "border-rose-200/80",
+    color: "#E11D48",
+    accentColor: "#E11D48",
+    badgeBg: "bg-[#FFE4E6]",
+    badgeText: "text-[#E11D48]",
+    category: "Memorial Felicitation",
     title: "Lalit Doshi Memorial Recognition",
-    desc: "Felicitation for our continued contribution to the colour and dye industry.",
-    img: "/images/news/News-Event-4.jpg",
+    desc: "Felicitation for our enduring dedication to high-purity colour synthesis, technical leadership, and continuous contribution to the Indian chemical industry.",
+    img: "/images/news/News-Event-4.png",
     link: "https://neelikon.com/",
   },
 ];
 
 export function MomentsFromNeelikon() {
-  const [activeIndex, setActiveIndex] = useState(0);
-  const scrollRef = useRef<HTMLDivElement>(null);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [direction, setDirection] = useState<1 | -1>(1);
+  const [isManualPaused, setIsManualPaused] = useState(false);
 
-  const scrollToIndex = (idx: number) => {
-    const clamped = Math.max(0, Math.min(MOMENTS.length - 1, idx));
-    setActiveIndex(clamped);
-    if (scrollRef.current) {
-      const cardWidth = scrollRef.current.children[0]?.clientWidth || 320;
-      scrollRef.current.scrollTo({
-        left: clamped * (cardWidth + 24),
-        behavior: "smooth",
-      });
+  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const touchStartXRef = useRef<number | null>(null);
+
+  // Slide navigation with loop (stable functions that don't depend on currentIndex)
+  const goToSlide = useCallback((index: number, newDirection: 1 | -1 = 1) => {
+    setDirection(newDirection);
+    setCurrentIndex((index + MOMENTS.length) % MOMENTS.length);
+  }, []);
+
+  const goToNextSlide = useCallback(() => {
+    setDirection(1);
+    setCurrentIndex((prev) => (prev + 1) % MOMENTS.length);
+  }, []);
+
+  const goToPrevSlide = useCallback(() => {
+    setDirection(-1);
+    setCurrentIndex((prev) => (prev - 1 + MOMENTS.length) % MOMENTS.length);
+  }, []);
+
+  // Autoplay management: always active unless user explicitly clicks Pause
+  const shouldPlay = !isManualPaused;
+
+  useEffect(() => {
+    if (!shouldPlay) {
+      if (timerRef.current) {
+        clearInterval(timerRef.current);
+        timerRef.current = null;
+      }
+      return;
+    }
+
+    timerRef.current = setInterval(() => {
+      goToNextSlide();
+    }, AUTOPLAY_INTERVAL);
+
+    return () => {
+      if (timerRef.current) {
+        clearInterval(timerRef.current);
+        timerRef.current = null;
+      }
+    };
+  }, [shouldPlay, goToNextSlide]);
+
+  // Touch Swipe Handlers for mobile & tablet
+  const handleTouchStart = (e: React.TouchEvent) => {
+    if (e.touches[0]) {
+      touchStartXRef.current = e.touches[0].clientX;
     }
   };
 
-  const handlePrev = () => scrollToIndex(activeIndex - 1);
-  const handleNext = () => scrollToIndex(activeIndex + 1);
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    if (touchStartXRef.current === null) return;
+    if (!e.changedTouches[0]) return;
+    const touchEndX = e.changedTouches[0].clientX;
+    const deltaX = touchStartXRef.current - touchEndX;
+
+    // Minimum swipe threshold of 45px
+    if (Math.abs(deltaX) > 45) {
+      if (deltaX > 0) {
+        goToNextSlide();
+      } else {
+        goToPrevSlide();
+      }
+    }
+    touchStartXRef.current = null;
+  };
+
+  // Keyboard navigation
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "ArrowLeft") {
+      e.preventDefault();
+      goToPrevSlide();
+    } else if (e.key === "ArrowRight") {
+      e.preventDefault();
+      goToNextSlide();
+    }
+  };
+
+  const currentMoment = MOMENTS[currentIndex] ?? MOMENTS[0]!;
+
+  // Slide animation variants
+  const slideVariants = {
+    enter: (dir: number) => ({
+      x: dir > 0 ? "8%" : "-8%",
+      opacity: 0,
+    }),
+    center: {
+      x: 0,
+      opacity: 1,
+      transition: {
+        x: { type: "spring" as const, stiffness: 260, damping: 28, mass: 0.8 },
+        opacity: { duration: 0.45, ease: "easeOut" as const },
+      },
+    },
+    exit: (dir: number) => ({
+      x: dir > 0 ? "-8%" : "8%",
+      opacity: 0,
+      transition: {
+        x: { type: "spring" as const, stiffness: 260, damping: 28, mass: 0.8 },
+        opacity: { duration: 0.35, ease: "easeIn" as const },
+      },
+    }),
+  };
 
   return (
     <section
       id="moments"
       aria-label="Moments from Neelikon"
-      className="relative w-full overflow-hidden bg-[#FAF7F2] text-[#0F172A] py-16 sm:py-20 lg:py-24"
+      onKeyDown={handleKeyDown}
+      tabIndex={0}
+      className="relative w-full overflow-hidden bg-[#FAF8F5] text-[#0F172A] pt-16 sm:pt-20 pb-20 sm:pb-28 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0F172A]/20"
     >
-      {/* Decorative Fluid Ribbon Wave Backgrounds matching reference */}
-      <div aria-hidden="true" className="pointer-events-none absolute inset-0 select-none overflow-hidden">
-        {/* Top-Right Warm Champagne Silk Glow */}
-        <div className="absolute -right-20 top-0 h-[380px] w-[500px] rounded-full bg-gradient-to-br from-[#FED7AA]/35 via-[#FDE68A]/20 to-transparent blur-3xl" />
-
-        {/* Bottom-Left Cyan & Sky Blue Ribbon Waves */}
+      {/* ========================================================= */}
+      {/* DECORATIVE TOP-RIGHT SPICE BOWL & FLOWING SWEEP CURVES    */}
+      {/* ========================================================= */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute top-0 right-0 w-[300px] sm:w-[420px] lg:w-[500px] h-[220px] sm:h-[260px] overflow-hidden select-none z-0"
+      >
         <svg
-          viewBox="0 0 600 350"
-          className="absolute -bottom-10 -left-10 w-[420px] sm:w-[560px] h-auto opacity-70"
+          viewBox="0 0 500 260"
+          className="absolute inset-0 w-full h-full"
           fill="none"
         >
           <defs>
-            <linearGradient id="waveBlue" x1="0%" y1="100%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor="#38BDF8" stopOpacity="0.45" />
-              <stop offset="50%" stopColor="#60A5FA" stopOpacity="0.3" />
-              <stop offset="100%" stopColor="#93C5FD" stopOpacity="0.05" />
-            </linearGradient>
-            <linearGradient id="waveCyan" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="#0284C7" stopOpacity="0.25" />
-              <stop offset="100%" stopColor="#38BDF8" stopOpacity="0" />
+            <linearGradient id="topSweepLine" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="#E2DDD5" stopOpacity="0.1" />
+              <stop offset="45%" stopColor="#E8AA76" stopOpacity="0.45" />
+              <stop offset="100%" stopColor="#E2DDD5" stopOpacity="0.1" />
             </linearGradient>
           </defs>
           <path
-            d="M -50 250 C 100 320, 250 210, 420 310 C 500 360, 560 300, 600 330 L 600 400 L -50 400 Z"
-            fill="url(#waveBlue)"
+            d="M 120 0 C 130 90, 210 180, 340 220 C 420 245, 470 255, 500 260"
+            stroke="url(#topSweepLine)"
+            strokeWidth="1.5"
           />
           <path
-            d="M -30 290 C 120 230, 280 340, 480 260 C 540 230, 580 270, 600 290 L 600 400 L -30 400 Z"
-            fill="url(#waveCyan)"
+            d="M 160 0 C 170 80, 240 160, 360 200 C 430 225, 475 235, 500 240"
+            stroke="#F0E8DC"
+            strokeWidth="1"
           />
         </svg>
 
-        {/* Bottom-Right Peach & Coral Ribbon Waves */}
+        <img
+          src="/images/news/top-dish-fade.png"
+          alt=""
+          aria-hidden="true"
+          className="absolute top-0 right-0 w-[270px] sm:w-[350px] lg:w-[410px] object-contain object-top-right opacity-90"
+        />
+      </div>
+
+      {/* ========================================================= */}
+      {/* DECORATIVE BOTTOM SILKY RIBBON WAVES (Clean Vector SVG)  */}
+      {/* ========================================================= */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute bottom-0 left-0 right-0 h-28 sm:h-36 overflow-hidden select-none z-0"
+      >
         <svg
-          viewBox="0 0 500 300"
-          className="absolute -bottom-10 -right-10 w-[360px] sm:w-[480px] h-auto opacity-60"
+          viewBox="0 0 1440 200"
+          preserveAspectRatio="none"
+          className="absolute bottom-0 left-0 w-full h-full opacity-85"
           fill="none"
         >
           <defs>
-            <linearGradient id="wavePeach" x1="100%" y1="100%" x2="0%" y2="0%">
-              <stop offset="0%" stopColor="#FB7185" stopOpacity="0.4" />
-              <stop offset="60%" stopColor="#FDBA74" stopOpacity="0.25" />
-              <stop offset="100%" stopColor="#FFEDD5" stopOpacity="0" />
+            <linearGradient id="warmGoldWave" x1="0%" y1="100%" x2="100%" y2="0%">
+              <stop offset="0%" stopColor="#F5DEC6" stopOpacity="0.85" />
+              <stop offset="45%" stopColor="#EBD3B9" stopOpacity="0.6" />
+              <stop offset="80%" stopColor="#FAF8F5" stopOpacity="0" />
+            </linearGradient>
+            <linearGradient id="coolSlateWave" x1="100%" y1="100%" x2="0%" y2="0%">
+              <stop offset="0%" stopColor="#CBD5E1" stopOpacity="0.6" />
+              <stop offset="50%" stopColor="#E2E8F0" stopOpacity="0.35" />
+              <stop offset="100%" stopColor="#FAF8F5" stopOpacity="0" />
+            </linearGradient>
+            <linearGradient id="ribbonLine" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="#E6CDB2" stopOpacity="0.9" />
+              <stop offset="50%" stopColor="#DFC3A5" stopOpacity="0.6" />
+              <stop offset="100%" stopColor="#CBD5E1" stopOpacity="0.4" />
             </linearGradient>
           </defs>
           <path
-            d="M 550 200 C 400 280, 250 170, 80 270 C 20 310, -20 280, -50 300 L -50 400 L 550 400 Z"
-            fill="url(#wavePeach)"
+            d="M 0 130 C 250 80, 500 170, 800 110 C 1100 50, 1300 130, 1440 100 L 1440 200 L 0 200 Z"
+            fill="url(#warmGoldWave)"
+          />
+          <path
+            d="M 1440 120 C 1200 60, 950 160, 700 120 C 450 80, 200 150, 0 160 L 0 200 L 1440 200 Z"
+            fill="url(#coolSlateWave)"
+          />
+          <path
+            d="M 0 140 C 280 90, 560 175, 840 115 C 1120 55, 1320 135, 1440 105"
+            stroke="url(#ribbonLine)"
+            strokeWidth="1.5"
           />
         </svg>
       </div>
 
       <div className="container-x relative z-10 mx-auto max-w-7xl">
         {/* ========================================================= */}
-        {/* HEADER: Eyebrow, Title with Orange "Neelikon.", Copy, CTA */}
+        {/* 1. HEADER (Preserved: Eyebrow, Title, Divider, Pill CTA) */}
         {/* ========================================================= */}
         <Reveal>
-          <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 pb-2">
+          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6 pb-2">
             {/* Left: Eyebrow & Brand Headline */}
-            <div>
-              <div className="flex items-center gap-3">
-                <span className="h-[2px] w-8 bg-[#2563EB]" />
-                <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#2563EB]">
+            <div className="max-w-xl">
+              <div className="flex items-center gap-2.5">
+                <span className="h-[2px] w-7 bg-[#E05322]" />
+                <span className="text-[11px] sm:text-xs font-bold uppercase tracking-[0.22em] text-[#1E293B]">
                   News & Events
                 </span>
               </div>
 
-              <h2 className="mt-4 font-serif text-4xl sm:text-5xl lg:text-[3.5rem] tracking-tight leading-[1.08] text-[#0F172A] font-bold">
+              <h2 className="mt-3.5 font-serif text-4xl sm:text-5xl lg:text-[3.25rem] tracking-tight leading-[1.08] text-[#0F172A] font-bold">
                 Moments from{" "}
-                <span className="italic font-normal text-[#E05322]">Neelikon.</span>
+                <span className="italic font-normal text-[#E05322] block sm:inline">Neelikon.</span>
               </h2>
             </div>
 
-            {/* Middle: Editorial Subtitle */}
-            <div className="max-w-sm lg:pb-1">
-              <p className="text-xs sm:text-sm text-[#64748B] leading-relaxed">
+            {/* Middle: Editorial Subtitle with Vertical Left Border */}
+            <div className="max-w-xs lg:max-w-sm border-l border-slate-300 pl-4 py-0.5">
+              <p className="text-xs sm:text-[13px] text-slate-600 leading-relaxed font-sans">
                 Recognitions, partnerships and milestones that reflect our commitment to quality,
                 innovation and a brighter, more colourful world.
               </p>
             </div>
 
             {/* Right: Pill Link Button */}
-            <div className="lg:pb-1">
+            <div className="shrink-0 lg:pb-1">
               <a
                 href="https://neelikon.com/"
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex items-center gap-2 rounded-full border border-[#1E2B68] bg-white/60 px-6 py-2.5 text-xs sm:text-sm font-semibold text-[#1E2B68] shadow-xs backdrop-blur-xs transition-all duration-300 hover:bg-[#1E2B68] hover:text-white hover:shadow-md hover:-translate-y-0.5 active:scale-95"
+                className="inline-flex items-center gap-2 rounded-full border border-[#0F172A] bg-white/90 px-6 py-2.5 text-xs sm:text-sm font-semibold text-[#0F172A] shadow-xs backdrop-blur-xs transition-all duration-300 hover:bg-[#0F172A] hover:text-white hover:shadow-md hover:-translate-y-0.5 active:scale-95"
               >
                 All news on neelikon.com <ArrowRight className="h-4 w-4" />
               </a>
@@ -183,144 +306,192 @@ export function MomentsFromNeelikon() {
         </Reveal>
 
         {/* ========================================================= */}
-        {/* CARDS CONTAINER & CAROUSEL                                */}
+        {/* 2. AUTO-PLAYING SLIDESHOW PRESENTATION (ONE SLIDE AT ONCE)*/}
         {/* ========================================================= */}
-        <div className="relative mt-12 sm:mt-14">
-          {/* Previous Arrow Button */}
-          <button
-            onClick={handlePrev}
-            disabled={activeIndex === 0}
-            aria-label="Previous card"
-            className="hidden md:flex absolute -left-4 xl:-left-6 top-1/2 -translate-y-1/2 z-20 h-11 w-11 items-center justify-center rounded-full bg-white border border-[#E2DDD5] text-slate-700 shadow-md transition-all duration-200 hover:bg-slate-50 hover:scale-105 hover:shadow-lg active:scale-95 disabled:opacity-30 disabled:pointer-events-none"
-          >
-            <ChevronLeft className="h-5 w-5" />
-          </button>
-
-          {/* Next Arrow Button */}
-          <button
-            onClick={handleNext}
-            disabled={activeIndex >= MOMENTS.length - 1}
-            aria-label="Next card"
-            className="hidden md:flex absolute -right-4 xl:-right-6 top-1/2 -translate-y-1/2 z-20 h-11 w-11 items-center justify-center rounded-full bg-white border border-[#E2DDD5] text-slate-700 shadow-md transition-all duration-200 hover:bg-slate-50 hover:scale-105 hover:shadow-lg active:scale-95 disabled:opacity-30 disabled:pointer-events-none"
-          >
-            <ChevronRight className="h-5 w-5" />
-          </button>
-
-          {/* Cards Grid / Scroll Track */}
-          <div
-            ref={scrollRef}
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 lg:gap-6 overflow-x-auto pb-4 pt-1 snap-x snap-mandatory scrollbar-none"
-          >
-            {MOMENTS.map((item, index) => (
+        <div
+          className="relative mt-10 sm:mt-14"
+          onTouchStart={handleTouchStart}
+          onTouchEnd={handleTouchEnd}
+        >
+          {/* Main Slide Presentation Stage with AnimatePresence */}
+          <div className="relative min-h-[460px] sm:min-h-[480px] lg:min-h-[500px] overflow-hidden">
+            <AnimatePresence initial={false} custom={direction} mode="wait">
               <motion.div
-                key={item.num}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                className="group snap-start relative flex flex-col justify-between rounded-3xl bg-white p-4 pb-6 border border-[#ECE7DF] shadow-[0_8px_24px_rgba(15,23,42,0.04)] transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_16px_36px_rgba(15,23,42,0.08)] hover:border-[#DFD8CC]"
+                key={currentIndex}
+                custom={direction}
+                variants={slideVariants}
+                initial="enter"
+                animate="center"
+                exit="exit"
+                className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center"
               >
-                <div>
-                  {/* Event Photograph with Smooth Aspect Ratio */}
-                  <div className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden bg-slate-100 mb-4 select-none">
+                {/* ---------------------------------------------------- */}
+                {/* Large Prominent Event Photograph (Desktop: ~58% cols)*/}
+                {/* ---------------------------------------------------- */}
+                <div className="lg:col-span-7">
+                  <div className="relative w-full aspect-[16/10] sm:aspect-[16/10] md:aspect-[16/10] rounded-2xl sm:rounded-3xl overflow-hidden bg-slate-100 shadow-[0_16px_40px_rgba(15,23,42,0.08)] border border-[#EBE5DC] group select-none">
                     <img
-                      src={item.img}
-                      alt={item.title}
-                      width={400}
-                      height={300}
-                      className="h-full w-full object-cover object-center transition-transform duration-700 group-hover:scale-105"
-                      loading="lazy"
+                      src={currentMoment.img}
+                      alt={currentMoment.title}
+                      width={800}
+                      height={500}
+                      className="h-full w-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
+                      loading="eager"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                  </div>
 
-                  {/* Header Row inside card: Date & Watermark Number */}
-                  <div className="flex items-start justify-between">
-                    <div>
-                      <p className="text-[11px] font-bold tracking-wider uppercase text-[#64748B] font-mono">
-                        {item.date}
-                      </p>
-                      <div className={`mt-1.5 h-[2px] w-6 ${item.lineColor} rounded-full`} />
+                    {/* Subtle warm corner shadow vignette */}
+                    <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/25 via-transparent to-transparent opacity-60" />
+
+                    {/* Active index pill overlay on top-left of image */}
+                    <div className="absolute top-4 left-4 sm:top-6 sm:left-6 flex items-center gap-2 rounded-full bg-white/90 backdrop-blur-md px-3.5 py-1.5 shadow-sm border border-white/60">
+                      <span className="h-2 w-2 rounded-full bg-[#E05322] animate-pulse" />
+                      <span className="text-xs font-mono font-bold tracking-wider text-[#0F172A]">
+                        {currentMoment.num} / {String(MOMENTS.length).padStart(2, "0")}
+                      </span>
                     </div>
 
-                    {/* Watermark Numeral */}
-                    <span
-                      aria-hidden="true"
-                      className={`font-serif italic font-normal text-3xl sm:text-4xl leading-none select-none ${item.numColor}`}
-                    >
-                      {item.num}
-                    </span>
+                    {/* Date badge on bottom-left of image */}
+                    <div className="absolute bottom-4 left-4 sm:bottom-6 sm:left-6 rounded-lg bg-black/60 backdrop-blur-md px-3.5 py-1.5 text-white shadow-sm">
+                      <p className="text-[11px] font-mono sm:text-xs font-bold tracking-wider uppercase">
+                        {currentMoment.date}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* ---------------------------------------------------- */}
+                {/* Event Details Content (Desktop: ~42% cols)          */}
+                {/* ---------------------------------------------------- */}
+                <div className="lg:col-span-5 flex flex-col justify-between py-2 sm:py-4">
+                  <div>
+                    {/* Header: Numbered Indicator & Date */}
+                    <div className="flex items-center gap-3">
+                      <span
+                        className={`inline-flex items-center justify-center rounded-full px-3 py-1 text-xs font-mono font-bold ${currentMoment.badgeBg} ${currentMoment.badgeText}`}
+                      >
+                        MOMENT {currentMoment.num}
+                      </span>
+                      <span className="text-slate-300 font-light">|</span>
+                      <span className="text-xs font-mono font-semibold tracking-wider text-slate-500 uppercase">
+                        {currentMoment.date}
+                      </span>
+                    </div>
+
+                    {/* Subtle Orange Accent Line */}
+                    <div className="mt-4 h-[2.5px] w-12 bg-[#E05322] rounded-full" />
+
+                    {/* Headline in Elegant Serif */}
+                    <h3 className="mt-5 font-serif font-bold text-2xl sm:text-3xl lg:text-4xl text-[#0F172A] tracking-tight leading-[1.2]">
+                      {currentMoment.title}
+                    </h3>
+
+                    {/* Description in Muted Slate */}
+                    <p className="mt-4 text-sm sm:text-base text-slate-600 leading-relaxed font-sans">
+                      {currentMoment.desc}
+                    </p>
+
+                    {/* Read More Link */}
+                    <div className="mt-6">
+                      <a
+                        href={currentMoment.link}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="group/link inline-flex items-center gap-2 text-sm font-semibold text-[#0F172A] hover:text-[#E05322] transition-colors duration-200"
+                      >
+                        <span className="underline decoration-1 underline-offset-4 decoration-slate-300 group-hover/link:decoration-[#E05322]">
+                          Read More
+                        </span>
+                        <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover/link:translate-x-1.5" />
+                      </a>
+                    </div>
                   </div>
 
-                  {/* Title */}
-                  <h3 className="mt-4 font-serif font-bold text-lg sm:text-xl text-[#0F172A] leading-snug line-clamp-2">
-                    {item.title}
-                  </h3>
+                  {/* -------------------------------------------------- */}
+                  {/* NAVIGATION CONTROLS & TIMELINE PROGRESS BAR        */}
+                  {/* -------------------------------------------------- */}
+                  <div className="mt-10 sm:mt-12 pt-6 border-t border-slate-200/80">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                      {/* Interactive Slide Dots Indicator */}
+                      <div className="flex items-center gap-2.5">
+                        {MOMENTS.map((item, idx) => {
+                          const isActive = idx === currentIndex;
+                          return (
+                            <button
+                              key={item.num}
+                              type="button"
+                              onClick={() => goToSlide(idx, idx > currentIndex ? 1 : -1)}
+                              aria-label={`Go to slide ${idx + 1}: ${item.title}`}
+                              className={`group/dot relative h-2.5 rounded-full transition-all duration-300 cursor-pointer ${
+                                isActive
+                                  ? "w-8 bg-[#0F172A]"
+                                  : "w-2.5 bg-slate-300 hover:bg-slate-400"
+                              }`}
+                            >
+                              <span className="sr-only">Slide {idx + 1}</span>
+                            </button>
+                          );
+                        })}
 
-                  {/* Description */}
-                  <p className="mt-2 text-xs text-[#64748B] leading-relaxed line-clamp-3">
-                    {item.desc}
-                  </p>
-                </div>
+                        {/* Subtle Autoplay Status Indicator */}
+                        <button
+                          type="button"
+                          onClick={() => setIsManualPaused((prev) => !prev)}
+                          aria-label={isManualPaused ? "Resume slideshow autoplay" : "Pause slideshow autoplay"}
+                          className="ml-2 inline-flex items-center justify-center h-6 w-6 rounded-full text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors"
+                          title={isManualPaused ? "Resume autoplay" : "Pause autoplay"}
+                        >
+                          {isManualPaused ? (
+                            <Play className="h-3 w-3 fill-current" />
+                          ) : (
+                            <Pause className="h-3 w-3 fill-current" />
+                          )}
+                        </button>
+                      </div>
 
-                {/* Bottom Row: Circular Action Button */}
-                <div className="mt-6 pt-2 flex items-center justify-end">
-                  <a
-                    href={item.link}
-                    target="_blank"
-                    rel="noreferrer"
-                    aria-label={`Read more about ${item.title}`}
-                    className={`flex h-9 w-9 items-center justify-center rounded-full ${item.accentBg} ${item.accentText} ${item.accentBorder} border shadow-xs transition-all duration-300 group-hover:scale-110 active:scale-95`}
-                  >
-                    <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5" />
-                  </a>
+                      {/* Circular Navigation Buttons */}
+                      <div className="flex items-center gap-2.5 select-none self-end sm:self-auto">
+                        <button
+                          type="button"
+                          onClick={goToPrevSlide}
+                          aria-label="Previous event slide"
+                          className="h-10 w-10 sm:h-11 sm:w-11 rounded-full bg-white border border-slate-200 text-slate-800 flex items-center justify-center shadow-xs transition-all duration-200 hover:bg-slate-50 hover:border-slate-300 hover:scale-105 active:scale-95 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0F172A]"
+                        >
+                          <ChevronLeft className="h-4 w-4 sm:h-5 sm:w-5" />
+                        </button>
+                        <button
+                          type="button"
+                          onClick={goToNextSlide}
+                          aria-label="Next event slide"
+                          className="h-10 w-10 sm:h-11 sm:w-11 rounded-full bg-[#0B132B] text-white flex items-center justify-center shadow-xs transition-all duration-200 hover:bg-[#1E2B68] hover:scale-105 active:scale-95 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0F172A]"
+                        >
+                          <ChevronRight className="h-4 w-4 sm:h-5 sm:w-5" />
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* Continuous Auto-Advance Progress Bar */}
+                    <div
+                      className="mt-4 h-[2px] w-full bg-slate-200 overflow-hidden rounded-full"
+                      role="progressbar"
+                      aria-valuenow={currentIndex + 1}
+                      aria-valuemin={1}
+                      aria-valuemax={MOMENTS.length}
+                    >
+                      <motion.div
+                        key={`${currentIndex}-${shouldPlay}`}
+                        initial={{ width: "0%" }}
+                        animate={{ width: shouldPlay ? "100%" : "0%" }}
+                        transition={{
+                          duration: shouldPlay ? AUTOPLAY_INTERVAL / 1000 : 0,
+                          ease: "linear",
+                        }}
+                        className="h-full bg-[#E05322]"
+                      />
+                    </div>
+                  </div>
                 </div>
               </motion.div>
-            ))}
-          </div>
-
-          {/* ========================================================= */}
-          {/* PAGINATION INDICATOR (— • • —) MATCHING REFERENCE         */}
-          {/* ========================================================= */}
-          <div className="flex items-center justify-center gap-2 mt-8 sm:mt-10 select-none">
-            {/* Left wide dash */}
-            <span className="h-[2px] w-9 rounded-full bg-slate-300/80" />
-
-            {/* Dot 1 (Active) */}
-            <button
-              onClick={() => scrollToIndex(0)}
-              aria-label="Go to slide 1"
-              className={`h-2.5 w-2.5 rounded-full transition-all duration-300 ${
-                activeIndex === 0
-                  ? "bg-[#1E2B68] ring-4 ring-[#1E2B68]/15 scale-110"
-                  : "bg-slate-300 hover:bg-slate-400"
-              }`}
-            />
-
-            {/* Dot 2 */}
-            <button
-              onClick={() => scrollToIndex(1)}
-              aria-label="Go to slide 2"
-              className={`h-2.5 w-2.5 rounded-full transition-all duration-300 ${
-                activeIndex === 1
-                  ? "bg-[#1E2B68] ring-4 ring-[#1E2B68]/15 scale-110"
-                  : "bg-slate-300 hover:bg-slate-400"
-              }`}
-            />
-
-            {/* Dot 3 */}
-            <button
-              onClick={() => scrollToIndex(2)}
-              aria-label="Go to slide 3"
-              className={`h-2.5 w-2.5 rounded-full transition-all duration-300 ${
-                activeIndex === 2
-                  ? "bg-[#1E2B68] ring-4 ring-[#1E2B68]/15 scale-110"
-                  : "bg-slate-300 hover:bg-slate-400"
-              }`}
-            />
-
-            {/* Right wide dash */}
-            <span className="h-[2px] w-9 rounded-full bg-slate-300/80" />
+            </AnimatePresence>
           </div>
         </div>
       </div>

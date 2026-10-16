@@ -7,11 +7,12 @@ import { EASE } from "./Reveal";
 
 const NAV = [
   { label: "Home", href: "/" },
+  { label: "About", href: "/about" },
   { label: "Products", href: "/products" },
   { label: "Industries", href: "/#industries" },
-  { label: "Innovation", href: "/#innovation" },
-  { label: "About Us", href: "/about" },
-  { label: "Quality", href: "/#quality" },
+  { label: "Sustainability", href: "/#innovation" },
+  { label: "Insights", href: "/#moments" },
+  { label: "Careers", href: "/#contact" },
   { label: "Contact", href: "/#contact" },
 ];
 
@@ -57,21 +58,32 @@ export function Header() {
         <Logo invert={false} />
         <nav aria-label="Main" className="hidden lg:block" onMouseLeave={() => { setHover(null); setMega(false); }}>
           <ul className="flex items-center gap-1">
-            {NAV.map((n) => (
-              <li key={n.label} className="relative" onMouseEnter={() => { setHover(n.label); setMega(n.label === "Products"); }}>
-                <a
-                  href={n.href}
-                  onFocus={() => setHover(n.label)}
-                  className="relative flex items-center gap-1 px-3 py-2 text-sm font-semibold"
-                >
-                  {n.label}
-                  {n.label === "Products" && <ChevronDown className="h-3.5 w-3.5" aria-hidden />}
-                  {hover === n.label && (
-                    <motion.span layoutId="nav-underline" className="spectrum-bar absolute inset-x-3 -bottom-0.5 h-0.5" transition={{ duration: 0.35, ease: EASE }} />
-                  )}
-                </a>
-              </li>
-            ))}
+            {NAV.map((n) => {
+              const isActive = (n.href === "/" && pathname === "/") || (n.href !== "/" && pathname.startsWith(n.href));
+              const showUnderline = hover === n.label || (!hover && isActive);
+
+              return (
+                <li key={n.label} className="relative" onMouseEnter={() => { setHover(n.label); setMega(n.label === "Products"); }}>
+                  <a
+                    href={n.href}
+                    onFocus={() => setHover(n.label)}
+                    className={`relative flex items-center gap-1 px-3 py-2 text-sm font-semibold transition-colors ${
+                      isActive ? "text-[#0F172A]" : "text-[#475569] hover:text-[#0F172A]"
+                    }`}
+                  >
+                    {n.label}
+                    {n.label === "Products" && <ChevronDown className="h-3.5 w-3.5" aria-hidden />}
+                    {showUnderline && (
+                      <motion.span
+                        layoutId="nav-underline"
+                        className="absolute inset-x-3 -bottom-0.5 h-[2px] rounded-full bg-[#E05322]"
+                        transition={{ duration: 0.35, ease: EASE }}
+                      />
+                    )}
+                  </a>
+                </li>
+              );
+            })}
           </ul>
           <AnimatePresence>
             {mega && (
@@ -97,7 +109,7 @@ export function Header() {
         <div className="flex items-center gap-3">
           <a
             href="/#contact"
-            className="hidden rounded-full btn min-h-11 px-5 text-sm font-bold bg-[#1E2B68] text-white shadow-sm transition-all hover:-translate-y-0.5 hover:bg-[#151F4E] active:scale-95 sm:inline-flex items-center gap-2"
+            className="hidden rounded-full btn min-h-11 px-6 text-sm font-bold bg-[#E05322] text-white shadow-sm shadow-[#E05322]/20 transition-all hover:-translate-y-0.5 hover:bg-[#C2410C] active:scale-95 sm:inline-flex items-center gap-2"
           >
             Discuss Your Requirements <ArrowRight className="h-4 w-4" />
           </a>
